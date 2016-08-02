@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMiddleWareForm", "DBMiddleWare\DBMiddleWareForm.csproj", "{D15A29D5-C2B4-42EA-9334-D06AF5365B41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMiddleWareLib", "DBMiddleWareLib\DBMiddleWareLib.csproj", "{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "测试数据库", "测试数据库", "{27289EA3-9530-46E2-8DC1-967E6E9A72DF}"
+	ProjectSection(SolutionItems) = preProject
+		D:\用户目录\我的文档\Database1.mdb = D:\用户目录\我的文档\Database1.mdb
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D15A29D5-C2B4-42EA-9334-D06AF5365B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D15A29D5-C2B4-42EA-9334-D06AF5365B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D15A29D5-C2B4-42EA-9334-D06AF5365B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D15A29D5-C2B4-42EA-9334-D06AF5365B41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
