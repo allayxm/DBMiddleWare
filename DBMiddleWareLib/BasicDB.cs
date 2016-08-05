@@ -12,7 +12,7 @@ using System.Data.OleDb;
 using Oracle.DataAccess.Client;
 using MySql.Data.MySqlClient;
 
-namespace MediInfo.DBMiddleWareLib
+namespace MXKJ.DBMiddleWareLib
 {
     #region 数据基类
     public class BasicDBClass:IDisposable
@@ -31,7 +31,7 @@ namespace MediInfo.DBMiddleWareLib
         protected  DbConnection m_DbConnection;
         protected  DbCommand m_DbCommand;
         protected  DbDataAdapter m_DbDataAdapter;
-        protected string[] m_TableList = null;
+        protected static string[] m_TableList = null;
         public string[] TableList
         {
             get
@@ -39,7 +39,7 @@ namespace MediInfo.DBMiddleWareLib
                 return m_TableList;
             }
         }
-        protected string[] m_TableViewList = null;
+        protected static string[] m_TableViewList = null;
         public string[] TableViewList
         {
             get
@@ -276,86 +276,92 @@ namespace MediInfo.DBMiddleWareLib
 
         public void FillTableViewList()
         {
-            switch (m_DataBaseType)
+            if (m_TableViewList == null)
             {
-                case DataBaseType.SqlServer:
-                    m_DbCommand.CommandText = "Select name From sysobjects Where xtype='v'";
-                    break;
-                case DataBaseType.Access:
-                    m_DbCommand.CommandText = "Select name from MSysObjects where type=5 and flags=0";
-                    break;
-                case DataBaseType.MySql:
-                    m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.VIEWS Where TABLE_SCHEMA='{0}'", DBName);
-                    break;
-                case DataBaseType.Oracle:
-                    m_DbCommand.CommandText = "select VIEW_NAME as name from user_views";
-                    break;
-            }
-
-            m_DbCommand.Parameters.Clear();
-
-            if (OpenConnection())
-            {
-                DataSet vDataSet = new DataSet();
-                DataTable vDataTable = new DataTable();
-                m_DbDataAdapter.Fill(vDataSet);
-                if (vDataSet.Tables.Count > 0)
-                    vDataTable = vDataSet.Tables[0];
-                if (vDataSet.Tables.Count > 0 && vDataTable.Rows.Count > 0)
+                switch (m_DataBaseType)
                 {
-                    List<string> vTableViewList = new List<string>();
-                    foreach (DataRow vTempRow in vDataTable.Rows)
-                    {
-                        string vTableName = vTempRow["Name"].ToString();
-                        vTableViewList.Add(vTableName);
-                    }
-                    m_TableViewList = vTableViewList.ToArray();
+                    case DataBaseType.SqlServer:
+                        m_DbCommand.CommandText = "Select name From sysobjects Where xtype='v'";
+                        break;
+                    case DataBaseType.Access:
+                        m_DbCommand.CommandText = "Select name from MSysObjects where type=5 and flags=0";
+                        break;
+                    case DataBaseType.MySql:
+                        m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.VIEWS Where TABLE_SCHEMA='{0}'", DBName);
+                        break;
+                    case DataBaseType.Oracle:
+                        m_DbCommand.CommandText = "select VIEW_NAME as name from user_views";
+                        break;
                 }
+
+                m_DbCommand.Parameters.Clear();
+
+                if (OpenConnection())
+                {
+                    DataSet vDataSet = new DataSet();
+                    DataTable vDataTable = new DataTable();
+                    m_DbDataAdapter.Fill(vDataSet);
+                    if (vDataSet.Tables.Count > 0)
+                        vDataTable = vDataSet.Tables[0];
+                    if (vDataSet.Tables.Count > 0 && vDataTable.Rows.Count > 0)
+                    {
+                        List<string> vTableViewList = new List<string>();
+                        foreach (DataRow vTempRow in vDataTable.Rows)
+                        {
+                            string vTableName = vTempRow["Name"].ToString();
+                            vTableViewList.Add(vTableName);
+                        }
+                        m_TableViewList = vTableViewList.ToArray();
+                    }
+                }
+                CloseConnection();
             }
-            CloseConnection();
         }
 
 
         public void FillTableList()
         {
-            switch ( m_DataBaseType )
+            if (m_TableList == null)
             {
-                case DataBaseType.SqlServer:
-                    m_DbCommand.CommandText = "Select name From sysobjects Where xtype='u'";
-                    break;
-                case DataBaseType.Access:
-                    m_DbCommand.CommandText = "Select name from MSysObjects where type=1 and flags=0";
-                    break;
-                case DataBaseType.MySql:
-                    //m_DbCommand.CommandText = "Select table_name as name from information_schema.tables where table_schema='csdb' and table_type='base table'";
-                    m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.TABLES Where TABLE_SCHEMA='{0}'", DBName);
-                    break;
-                case DataBaseType.Oracle:
-                    m_DbCommand.CommandText = "Select TNAME as name from tab Where TABTYPE='TABLE'";
-                    break;
-            }
-            
-            m_DbCommand.Parameters.Clear();
-
-            if (OpenConnection())
-            {
-                DataSet vDataSet = new DataSet();
-                DataTable vDataTable = new DataTable();
-                m_DbDataAdapter.Fill(vDataSet);
-                if (vDataSet.Tables.Count > 0)
-                    vDataTable = vDataSet.Tables[0];
-                if (vDataSet.Tables.Count > 0 && vDataTable.Rows.Count > 0)
+                switch (m_DataBaseType)
                 {
-                    List<string> vTableNameList = new List<string>();
-                    foreach (DataRow vTempRow in vDataTable.Rows)
-                    {
-                        string vTableName = vTempRow["Name"].ToString();
-                        vTableNameList.Add(vTableName);
-                    }
-                    m_TableList = vTableNameList.ToArray();
+                    case DataBaseType.SqlServer:
+                        m_DbCommand.CommandText = "Select name From sysobjects Where xtype='u'";
+                        break;
+                    case DataBaseType.Access:
+                        m_DbCommand.CommandText = "Select name from MSysObjects where type=1 and flags=0";
+                        break;
+                    case DataBaseType.MySql:
+                        //m_DbCommand.CommandText = "Select table_name as name from information_schema.tables where table_schema='csdb' and table_type='base table'";
+                        m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.TABLES Where TABLE_SCHEMA='{0}'", DBName);
+                        break;
+                    case DataBaseType.Oracle:
+                        m_DbCommand.CommandText = "Select TNAME as name from tab Where TABTYPE='TABLE'";
+                        break;
                 }
+
+                m_DbCommand.Parameters.Clear();
+
+                if (OpenConnection())
+                {
+                    DataSet vDataSet = new DataSet();
+                    DataTable vDataTable = new DataTable();
+                    m_DbDataAdapter.Fill(vDataSet);
+                    if (vDataSet.Tables.Count > 0)
+                        vDataTable = vDataSet.Tables[0];
+                    if (vDataSet.Tables.Count > 0 && vDataTable.Rows.Count > 0)
+                    {
+                        List<string> vTableNameList = new List<string>();
+                        foreach (DataRow vTempRow in vDataTable.Rows)
+                        {
+                            string vTableName = vTempRow["Name"].ToString();
+                            vTableNameList.Add(vTableName);
+                        }
+                        m_TableList = vTableNameList.ToArray();
+                    }
+                }
+                CloseConnection();
             }
-            CloseConnection();
         }
 
         public string TableName

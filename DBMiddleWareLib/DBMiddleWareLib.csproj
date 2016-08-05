@@ -7,7 +7,7 @@
     <ProjectGuid>{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MediInfo.DBMiddleWareLib</RootNamespace>
+    <RootNamespace>MXKJ.DBMiddleWareLib</RootNamespace>
     <AssemblyName>DBMiddleWareLib</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
