@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Data.SqlTypes;
 using System.Collections.Generic;
 
-namespace MediInfo.DBMiddleWareLib
+namespace MXKJ.DBMiddleWareLib
 {
 
     /// <summary>

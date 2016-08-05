@@ -12,7 +12,7 @@ using System.Data.OleDb;
 using Oracle.DataAccess.Client;
 using MySql.Data.MySqlClient;
 
-namespace MediInfo.DBMiddleWareLib
+namespace MXKJ.DBMiddleWareLib
 {
     #region 数据基类
     public class BasicDBClass:IDisposable
@@ -328,7 +328,7 @@ namespace MediInfo.DBMiddleWareLib
                     break;
                 case DataBaseType.MySql:
                     //m_DbCommand.CommandText = "Select table_name as name from information_schema.tables where table_schema='csdb' and table_type='base table'";
-                    m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.TABLES Where TABLE_SCHEMA='{0}'", DBName);
+                    m_DbCommand.CommandText = string.Format("select TABLE_NAME as name from information_schema.TABLES Where TABLE_SCHEMA='{0}' and TABLE_TYPE='BASE TABLE'", DBName);
                     break;
                 case DataBaseType.Oracle:
                     m_DbCommand.CommandText = "Select TNAME as name from tab Where TABTYPE='TABLE'";
