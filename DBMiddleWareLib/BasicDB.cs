@@ -651,7 +651,7 @@ namespace MXKJ.DBMiddleWareLib
             switch( m_DataBaseType )
             {
                 case DataBaseType.MySql:
-                    m_DbCommand.CommandText = string.Format("Select *From {0} Where '{1}'=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                    m_DbCommand.CommandText = string.Format("Select *From {0} Where `{1}`=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
                     break;
                 case DataBaseType.Oracle:
                     m_DbCommand.CommandText = string.Format("Select *From {0} Where {1}=:PrimaryKeyValue", m_TableName, m_PrimaryKey);
@@ -692,9 +692,9 @@ namespace MXKJ.DBMiddleWareLib
             {
                 case DataBaseType.MySql:
                     if (Columns == "")
-                        m_DbCommand.CommandText = string.Format("Select *From {0} Where '{1}'=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                        m_DbCommand.CommandText = string.Format("Select *From {0} Where `{1}`=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
                     else
-                        m_DbCommand.CommandText = string.Format("Select {0} From {1} Where '{2}'=@PrimaryKeyValue", Columns, m_TableName, m_PrimaryKey);
+                        m_DbCommand.CommandText = string.Format("Select {0} From {1} Where `{2}`=@PrimaryKeyValue", Columns, m_TableName, m_PrimaryKey);
                     break;
                 case DataBaseType.Oracle:
                     if (Columns == "")
@@ -1561,7 +1561,7 @@ namespace MXKJ.DBMiddleWareLib
             switch ( m_DataBaseType )
             {
                 case DataBaseType.MySql:
-                    result = "'" + m_TableName + "'";
+                    result = "`" + m_TableName + "`";
                     break;
                 case DataBaseType.Oracle:
                     result = m_TableName;
