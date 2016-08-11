@@ -102,7 +102,7 @@ namespace MXKJ.DBMiddleWareLib
         {
             if (m_DbCommand.Transaction == null && OpenConnection())
             {
-                SqlTransaction transaction = (SqlTransaction)m_DbConnection.BeginTransaction();
+                DbTransaction transaction = m_DbConnection.BeginTransaction();
                 m_DbCommand.Transaction = transaction;
             }
         }
@@ -1415,7 +1415,7 @@ namespace MXKJ.DBMiddleWareLib
         {
             try
             {
-                if (m_DbConnection.State == System.Data.ConnectionState.Open)
+                if ( m_DbCommand.Transaction !=null && m_DbConnection.State == System.Data.ConnectionState.Open)
                 {
                     m_DbConnection.Close();
                 }
