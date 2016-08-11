@@ -650,6 +650,9 @@ namespace MXKJ.DBMiddleWareLib
             DataTable resultTable = new DataTable();
             switch( m_DataBaseType )
             {
+                case DataBaseType.MySql:
+                    m_DbCommand.CommandText = string.Format("Select *From {0} Where '{1}'=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     m_DbCommand.CommandText = string.Format("Select *From {0} Where {1}=:PrimaryKeyValue", m_TableName, m_PrimaryKey);
                     break;
@@ -687,6 +690,12 @@ namespace MXKJ.DBMiddleWareLib
             DataTable resultTable = new DataTable();
             switch ( m_DataBaseType )
             {
+                case DataBaseType.MySql:
+                    if (Columns == "")
+                        m_DbCommand.CommandText = string.Format("Select *From {0} Where '{1}'=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                    else
+                        m_DbCommand.CommandText = string.Format("Select {0} From {1} Where '{2}'=@PrimaryKeyValue", Columns, m_TableName, m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     if (Columns == "")
                         m_DbCommand.CommandText = string.Format("Select *From {0} Where {1}=:PrimaryKeyValue", m_TableName, m_PrimaryKey);
@@ -958,6 +967,9 @@ namespace MXKJ.DBMiddleWareLib
             string vCondition = "";
             switch (m_DataBaseType)
             {
+                case DataBaseType.MySql:
+                    vCondition = string.Format("`{0}`=:PrimaryKeyValue", m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     vCondition = string.Format("{0}=:PrimaryKeyValue", m_PrimaryKey);
                     break;
@@ -1059,6 +1071,9 @@ namespace MXKJ.DBMiddleWareLib
 
             switch( m_DataBaseType)
             {
+                case DataBaseType.MySql:
+                    m_DbCommand.CommandText = string.Format("Delete From {0} Where `{1}`=@PrimaryKey", m_TableName, m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     m_DbCommand.CommandText = string.Format("Delete From {0} Where {1}=:PrimaryKey", m_TableName, m_PrimaryKey);
                     break;
@@ -1166,6 +1181,9 @@ namespace MXKJ.DBMiddleWareLib
             DataTable table = new DataTable();
             switch( m_DataBaseType)
             {
+                case DataBaseType.MySql:
+                    m_DbCommand.CommandText = string.Format("Select *From {0} Where `{1}`=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     m_DbCommand.CommandText = string.Format("Select *From {0} Where {1}=:PrimaryKeyValue", m_TableName, m_PrimaryKey);
                     break;
@@ -1200,6 +1218,12 @@ namespace MXKJ.DBMiddleWareLib
             DataTable table = new DataTable();
             switch( m_DataBaseType)
             {
+                case DataBaseType.MySql:
+                    if (Columns == "")
+                        m_DbCommand.CommandText = string.Format("Select *From {0} Where `{1}`=@PrimaryKeyValue", m_TableName, m_PrimaryKey);
+                    else
+                        m_DbCommand.CommandText = string.Format("Select {0} From {1} Where `{2}`=@PrimaryKeyValue", Columns, m_TableName, m_PrimaryKey);
+                    break;
                 case DataBaseType.Oracle:
                     if (Columns == "")
                         m_DbCommand.CommandText = string.Format("Select *From {0} Where {1}=:PrimaryKeyValue", m_TableName, m_PrimaryKey);
@@ -1533,10 +1557,21 @@ namespace MXKJ.DBMiddleWareLib
 
         protected string getTableName()
         {
-            //if (m_TableViewName != "" && m_IsUserView)
-            //    return m_TableViewName;
-            //else
-                return m_TableName;
+            string result = m_TableName;
+            switch ( m_DataBaseType )
+            {
+                case DataBaseType.MySql:
+                    result = "'" + m_TableName + "'";
+                    break;
+                case DataBaseType.Oracle:
+                    result = m_TableName;
+                    break;
+                case DataBaseType.Access:
+                case DataBaseType.SqlServer:
+                    result = "[" + m_TableName + "]";
+                    break;
+            }
+            return result;
         }
 
         void MarkInsertSql<T>(T Record, out string Sql, out DbParameter[] DbParameters)
@@ -1564,7 +1599,7 @@ namespace MXKJ.DBMiddleWareLib
                             switch (m_DataBaseType )
                             {
                                 case DataBaseType.MySql:
-                                    fieldsSql += string.Format("{0},", columnAttrib.ColumnName);
+                                    fieldsSql += string.Format("`{0}`,", columnAttrib.ColumnName);
                                     valuesSql += string.Format("@{0},", columnAttrib.ColumnName);
                                     break;
                                 case DataBaseType.Oracle:
@@ -1632,7 +1667,7 @@ namespace MXKJ.DBMiddleWareLib
                             switch( m_DataBaseType )
                             {
                                 case DataBaseType.MySql:
-                                    deleteSql += string.Format("({0}=@{0}) and ", columnAttrib.ColumnName);
+                                    deleteSql += string.Format("(`{0}`=@{0}) and ", columnAttrib.ColumnName);
                                     break;
                                 case DataBaseType.Oracle:
                                 default:
@@ -1699,7 +1734,7 @@ namespace MXKJ.DBMiddleWareLib
                             switch( m_DataBaseType )
                             {
                                 case DataBaseType.MySql:
-                                    selectSql += string.Format("({0}=@{0}) and ", columnAttrib.ColumnName);
+                                    selectSql += string.Format("(`{0}`=@{0}) and ", columnAttrib.ColumnName);
                                     break;
                                 case DataBaseType.Oracle:
                                     selectSql += string.Format("({0}=:{0}) and ", columnAttrib.ColumnName);
@@ -1793,7 +1828,7 @@ namespace MXKJ.DBMiddleWareLib
                             switch ( m_DataBaseType )
                             {
                                 case DataBaseType.MySql:
-                                    setSql += string.Format("{0}=@{0},", columnAttrib.ColumnName);
+                                    setSql += string.Format("`{0}`=@{0},", columnAttrib.ColumnName);
                                     break;
                                 case DataBaseType.Oracle:
                                     setSql += string.Format("{0}=:{0},", columnAttrib.ColumnName);
