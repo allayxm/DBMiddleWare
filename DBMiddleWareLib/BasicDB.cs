@@ -1415,7 +1415,7 @@ namespace MXKJ.DBMiddleWareLib
         {
             try
             {
-                if ( m_DbCommand.Transaction !=null && m_DbConnection.State == System.Data.ConnectionState.Open)
+                if ( m_DbCommand.Transaction ==null && m_DbConnection.State == System.Data.ConnectionState.Open)
                 {
                     m_DbConnection.Close();
                 }
