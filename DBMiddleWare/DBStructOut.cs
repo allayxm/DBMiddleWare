@@ -35,7 +35,7 @@ namespace DBMiddleWareForm
 
         public void AddTableView(string TableName,string PK, DBStruct[] DBStructList)
         {
-            m_StringBuffer.AppendFormat("[TableAttrib(\"{0}\",true,{1})]", TableName,PK);
+            m_StringBuffer.AppendFormat("[TableAttrib(\"{0}\",true,\"{1}\")]", TableName,PK);
             m_StringBuffer.AppendLine();
             m_StringBuffer.AppendFormat("public struct {0}", TableName);
             m_StringBuffer.AppendLine();
