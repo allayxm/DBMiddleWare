@@ -8,14 +8,14 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Data.Odbc;
 using System.Data.OleDb;
-//using System.Data.OracleClient;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
+//using Oracle.DataAccess.Client;
 using MySql.Data.MySqlClient;
 
 namespace MXKJ.DBMiddleWareLib
 {
     #region 数据基类
-    public class BasicDBClass:IDisposable
+    public class BasicDBClass : IDisposable
     {
         #region 数据库参数
         public static string DataSource = string.Empty;
@@ -27,10 +27,11 @@ namespace MXKJ.DBMiddleWareLib
         public static string AttachDbFilename = string.Empty;
         public static int PoolSize = 100;
         public static int Timeout = 30;
+        public static string ConnectionStr = string.Empty;
 
-        protected  DbConnection m_DbConnection;
-        protected  DbCommand m_DbCommand;
-        protected  DbDataAdapter m_DbDataAdapter;
+        protected DbConnection m_DbConnection;
+        protected DbCommand m_DbCommand;
+        protected DbDataAdapter m_DbDataAdapter;
         protected static string[] m_TableList = null;
         public string[] TableList
         {
@@ -86,14 +87,14 @@ namespace MXKJ.DBMiddleWareLib
         #endregion
 
         #region 构造
-        public BasicDBClass( DataBaseType DBTypeValue )
+        public BasicDBClass(DataBaseType DBTypeValue)
         {
             m_DataBaseType = DBTypeValue;
             //if (m_DbConnection == null)
-                InitConnection();
+            InitConnection();
             FillTableList();
             FillTableViewList();
-            
+
         }
         #endregion
 
@@ -143,7 +144,7 @@ namespace MXKJ.DBMiddleWareLib
                         case DataRowState.Added:
                             vRecord = new T();
                             CommClass.ConvertDataRowToStruct(ref vRecord, vTempRow);
-                            vResult = InsertRecord(vRecord) == -1 ? false : true ;
+                            vResult = InsertRecord(vRecord) == -1 ? false : true;
                             break;
                         case DataRowState.Modified:
                             vRecord = new T();
@@ -211,7 +212,7 @@ namespace MXKJ.DBMiddleWareLib
                         m_DbConnection.Open();
                         return true;
                     }
-                    catch( Exception ex)
+                    catch (Exception ex)
                     {
                         Message = ex.Message;
                         return false;
@@ -223,22 +224,26 @@ namespace MXKJ.DBMiddleWareLib
 
         }
 
-        public  void InitConnection()
+        public void InitConnection()
         {
             string sqlConn = "";
-            
+            if (ConnectionStr != string.Empty && ConnectionStr != "")
+                sqlConn = ConnectionStr;
             switch (m_DataBaseType)
             {
                 case DataBaseType.SqlServer:
-                    if (AttachDbFilename != null && AttachDbFilename != "" && AttachDbFilename != string.Empty)
-                        sqlConn = string.Format("Data Source={0};AttachDbFilename={1};Integrated Security={2};Connect Timeout={3}",DataSource, AttachDbFilename, IntegratedSecurity,Timeout);
-                    else if (!IntegratedSecurity)
-                        sqlConn = string.Format("data source={0};user id={1};passWord={2};initial Catalog={3};Connect Timeout={4}", DataSource, UserID,
-                         Password, DBName,Timeout);
-                    else
-                        sqlConn = string.Format("data source={0};initial Catalog={3};Integrated Security={4};Connect Timeout={5}", DataSource, UserID,
-                         Password, DBName, IntegratedSecurity,Timeout);
-                    
+                    if (sqlConn == "")
+                    {
+                        if (AttachDbFilename != null && AttachDbFilename != "" && AttachDbFilename != string.Empty)
+                            sqlConn = string.Format("Data Source={0};AttachDbFilename={1};Integrated Security={2};Connect Timeout={3}", DataSource, AttachDbFilename, IntegratedSecurity, Timeout);
+                        else if (!IntegratedSecurity)
+                            sqlConn = string.Format("data source={0};user id={1};passWord={2};initial Catalog={3};Connect Timeout={4}", DataSource, UserID,
+                             Password, DBName, Timeout);
+                        else
+                            sqlConn = string.Format("data source={0};initial Catalog={3};Integrated Security={4};Connect Timeout={5}", DataSource, UserID,
+                             Password, DBName, IntegratedSecurity, Timeout);
+                    }
+
                     //sqlConn = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\用户目录\我的文档\YXMDB.mdf;Integrated Security=True;Connect Timeout=30";
                     m_DbConnection = new SqlConnection(sqlConn);
                     m_DbCommand = new SqlCommand();
@@ -246,17 +251,21 @@ namespace MXKJ.DBMiddleWareLib
                     m_DbDataAdapter = new SqlDataAdapter((SqlCommand)m_DbCommand);
                     break;
                 case DataBaseType.Access:
-                    if (Password!=string.Empty || Password != "" )
-                        sqlConn = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Jet OLEDB:Database Password={1};", DataSource, Password);
-                    else
-                        sqlConn = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=True", DataSource);
+                    if (sqlConn == "")
+                    {
+                        if (Password != string.Empty || Password != "")
+                            sqlConn = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Jet OLEDB:Database Password={1};", DataSource, Password);
+                        else
+                            sqlConn = string.Format("Provider=Microsoft.Jet.OLEDB.4.0;Data Source={0};Persist Security Info=True", DataSource);
+                    }
                     m_DbConnection = new OleDbConnection(sqlConn);
                     m_DbCommand = new OleDbCommand();
                     m_DbCommand.Connection = m_DbConnection;
                     m_DbDataAdapter = new OleDbDataAdapter((OleDbCommand)m_DbCommand);
                     break;
                 case DataBaseType.MySql:
-                    sqlConn = string.Format("Data Source ={0};port={1};Database={2};User Id={3};Password={4};CharSet=utf8",DataSource,Port,DBName,UserID,Password);
+                    if (sqlConn == "")
+                        sqlConn = string.Format("Data Source ={0};port={1};Database={2};User Id={3};Password={4};CharSet=utf8", DataSource, Port, DBName, UserID, Password);
                     m_DbConnection = new MySqlConnection(sqlConn);
                     m_DbCommand = new MySqlCommand();
                     m_DbCommand.Connection = m_DbConnection;
@@ -264,14 +273,15 @@ namespace MXKJ.DBMiddleWareLib
                     break;
                 case DataBaseType.Oracle:
                     //Data Source = TORCL; User Id = myUsername; Password = myPassword;
-                    sqlConn = string.Format("user id={0};data source={1};password={2};Persist Security Info=True", UserID,DataSource,Password);
+                    if ( sqlConn =="" )
+                        sqlConn = string.Format("user id={0};data source={1};password={2};Persist Security Info=True", UserID, DataSource, Password);
                     m_DbConnection = new OracleConnection(sqlConn);
                     m_DbCommand = new OracleCommand();
                     m_DbCommand.Connection = m_DbConnection;
                     m_DbDataAdapter = new OracleDataAdapter((OracleCommand)m_DbCommand);
                     break;
             }
-            
+
         }
 
         public void FillTableViewList()
