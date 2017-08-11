@@ -793,7 +793,7 @@
         {
         myMessage += myCommand.Parameters[i].ToString() + "\n";
         }
-        MessageBox.Show(myMessage);
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show(myMessage);
         }
       </code>
     </example>
@@ -1600,10 +1600,10 @@
         "Persist Security Info=False;database=test;server=localhost;user id=joeuser;pwd=pass"
         Dim myConnection As New MySqlConnection( myConnString )
         myConnection.Open()
-        MessageBox.Show( "Server Version: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "Server Version: " + myConnection.ServerVersion _
         + ControlChars.NewLine + "Database: " + myConnection.Database )
         myConnection.ChangeDatabase( "test2" )
-        MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.NewLine + "Database: " + myConnection.Database )
         myConnection.Close()
         End Sub
@@ -1616,10 +1616,10 @@
         "Persist Security Info=False;database=test;server=localhost;user id=joeuser;pwd=pass";
         MySqlConnection myConnection = new MySqlConnection( myConnString );
         myConnection.Open();
-        MessageBox.Show( "Server Version: " + myConnection.ServerVersion
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "Server Version: " + myConnection.ServerVersion
         + "\nDatabase: " + myConnection.Database );
         myConnection.ChangeDatabase( "test2" );
-        MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion
         + "\nDatabase: " + myConnection.Database );
         myConnection.Close();
         }
@@ -1652,7 +1652,7 @@
         Public Sub CreateMySqlConnection(myConnString As String)
         Dim myConnection As New MySqlConnection(myConnString)
         myConnection.Open()
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.Cr + "State: " + myConnection.State.ToString())
         myConnection.Close()
         End Sub
@@ -1662,7 +1662,7 @@
         {
         MySqlConnection myConnection = new MySqlConnection(myConnString);
         myConnection.Open();
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
         "\nState: " + myConnection.State.ToString());
         myConnection.Close();
         }
@@ -1678,7 +1678,7 @@
         Public Sub CreateMySqlConnection(myConnString As String)
         Dim myConnection As New MySqlConnection(myConnString)
         myConnection.Open()
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.Cr + "State: " + myConnection.State.ToString())
         myConnection.Close()
         End Sub
@@ -1688,7 +1688,7 @@
         {
         MySqlConnection myConnection = new MySqlConnection(myConnString);
         myConnection.Open();
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
         "\nState: " + myConnection.State.ToString());
         myConnection.Close();
         }
@@ -2407,10 +2407,10 @@
         "Persist Security Info=False;database=test;server=localhost;user id=joeuser;pwd=pass"
         Dim myConnection As New MySqlConnection( myConnString )
         myConnection.Open()
-        MessageBox.Show( "Server Version: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "Server Version: " + myConnection.ServerVersion _
         + ControlChars.NewLine + "Database: " + myConnection.Database )
         myConnection.ChangeDatabase( "test2" )
-        MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.NewLine + "Database: " + myConnection.Database )
         myConnection.Close()
         End Sub
@@ -2423,10 +2423,10 @@
         "Persist Security Info=False;database=test;server=localhost;user id=joeuser;pwd=pass";
         MySqlConnection myConnection = new MySqlConnection( myConnString );
         myConnection.Open();
-        MessageBox.Show( "Server Version: " + myConnection.ServerVersion
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "Server Version: " + myConnection.ServerVersion
         + "\nDatabase: " + myConnection.Database );
         myConnection.ChangeDatabase( "test2" );
-        MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( "ServerVersion: " + myConnection.ServerVersion
         + "\nDatabase: " + myConnection.Database );
         myConnection.Close();
         }
@@ -2453,7 +2453,7 @@
         Public Sub CreateMySqlConnection(myConnString As String)
         Dim myConnection As New MySqlConnection(myConnString)
         myConnection.Open()
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.Cr + "State: " + myConnection.State.ToString())
         myConnection.Close()
         End Sub
@@ -2463,7 +2463,7 @@
         {
         MySqlConnection myConnection = new MySqlConnection(myConnString);
         myConnection.Open();
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
         "\nState: " + myConnection.State.ToString());
         myConnection.Close();
         }
@@ -2502,7 +2502,7 @@
         Public Sub CreateMySqlConnection(myConnString As String)
         Dim myConnection As New MySqlConnection(myConnString)
         myConnection.Open()
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion _
         + ControlChars.Cr + "State: " + myConnection.State.ToString())
         myConnection.Close()
         End Sub
@@ -2512,7 +2512,7 @@
         {
         MySqlConnection myConnection = new MySqlConnection(myConnString);
         myConnection.Open();
-        MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show("ServerVersion: " + myConnection.ServerVersion +
         "\nState: " + myConnection.State.ToString());
         myConnection.Close();
         }
@@ -4378,7 +4378,7 @@
         Try
         myCommand.Connection.Open()
         Catch e As MySqlException
-        MessageBox.Show( e.Message )
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( e.Message )
         End Try
         End Sub
       </code>
@@ -4396,7 +4396,7 @@
         }
         catch (MySqlException e)
         {
-        MessageBox.Show( e.Message );
+        Xceed.Wpf.Toolkit.Xceed.Wpf.Toolkit.MessageBox.Show( e.Message );
         }
         }
       </code>

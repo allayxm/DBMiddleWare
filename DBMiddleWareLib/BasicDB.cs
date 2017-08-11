@@ -8,8 +8,8 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Data.Odbc;
 using System.Data.OleDb;
-//using System.Data.OracleClient;
-using Oracle.DataAccess.Client;
+using System.Data.OracleClient;
+//using Oracle.DataAccess.Client;
 using MySql.Data.MySqlClient;
 
 namespace MXKJ.DBMiddleWareLib
@@ -497,8 +497,8 @@ namespace MXKJ.DBMiddleWareLib
                 {
                     m_DbDataAdapter.FillSchema(resultTable, SchemaType.Mapped);
                     m_DbDataAdapter.Fill(resultTable);
-                    CloseConnection();
                 }
+                CloseConnection();
             }
 
             if (resultTable.Rows.Count > 0)
@@ -578,6 +578,7 @@ namespace MXKJ.DBMiddleWareLib
             DataTable resultTable = new DataTable();
             if (SelectSql != null && SelectSql != "" && SelectSql != string.Empty)
             {
+                m_DbCommand.Parameters.Clear();
                 m_DbCommand.CommandText = SelectSql;
                 if (OpenConnection())
                 {
@@ -634,8 +635,8 @@ namespace MXKJ.DBMiddleWareLib
             {
                 m_DbDataAdapter.FillSchema(resultTable, SchemaType.Mapped);
                 m_DbDataAdapter.Fill(resultTable);
-                CloseConnection();
             }
+            CloseConnection();
             if (resultTable.Rows.Count > 0)
             {
                 resultArray = ConvertTableToStructArray<T>(resultTable);
@@ -814,6 +815,7 @@ namespace MXKJ.DBMiddleWareLib
             DataTable resultTable = new DataTable();
             if (SelectSql != null && SelectSql != "" && SelectSql != string.Empty)
             {
+                m_DbCommand.Parameters.Clear();
                 m_DbCommand.CommandText = SelectSql;
                 if (OpenConnection())
                 {
@@ -1272,7 +1274,7 @@ namespace MXKJ.DBMiddleWareLib
                 m_DbCommand.Parameters.AddRange(DbParameters);
 
                 OpenConnection();
-                if (m_DbCommand.ExecuteNonQuery() >= 0)
+                if (m_DbCommand.ExecuteNonQuery() > 0)
                     return true;
                 else
                     return false;
@@ -1337,6 +1339,11 @@ namespace MXKJ.DBMiddleWareLib
                                 fieldValue = DBConvert.ToInt16(row[columnAttrib.ColumnName]);
                                 fieldInfo.SetValue(recordOBJ, fieldValue);
                                 break;
+                            case "System.UInt16":
+                            case "System.Nullable`1[System.UInt16]":
+                                fieldValue = DBConvert.ToUInt16(row[columnAttrib.ColumnName]);
+                                fieldInfo.SetValue(recordOBJ, fieldValue);
+                                break;
                             case "System.Int32":
                             case "System.Nullable`1[System.Int32]":
                             case "System.Data.SqlTypes.SqlInt32":
@@ -1381,6 +1388,11 @@ namespace MXKJ.DBMiddleWareLib
                             case "System.Nullable`1[System.Double]":
                             case "System.Data.SqlTypes.SqlDouble":
                                 fieldValue = DBConvert.ToDouble(row[columnAttrib.ColumnName]);
+                                fieldInfo.SetValue(recordOBJ, fieldValue);
+                                break;
+                            //byte
+                            case "System.Nullable`1[System.Byte]":
+                                fieldValue = DBConvert.ToByte(row[columnAttrib.ColumnName]);
                                 fieldInfo.SetValue(recordOBJ, fieldValue);
                                 break;
                         }

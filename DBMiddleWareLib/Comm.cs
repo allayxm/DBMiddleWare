@@ -243,6 +243,20 @@ namespace MXKJ.DBMiddleWareLib
             return vResult;
         }
 
+        public static UInt16? ToUInt16(object value)
+        {
+            UInt16? vResult = null;
+            if (value is SqlInt16)
+                vResult = ((SqlInt16)value).IsNull ? (UInt16)0 : (UInt16)((SqlInt16)value).Value;
+            else if (value is Int16)
+                vResult = value == DBNull.Value ? null : (UInt16?)value;
+            else if (value is DBNull)
+                vResult = null;
+            else
+                vResult = Convert.ToUInt16(value);
+            return vResult;
+        }
+
 
         public static decimal? ToDecimal(object value)
         {
@@ -337,6 +351,20 @@ namespace MXKJ.DBMiddleWareLib
                 vResult = null;
             else
                 vResult = Convert.ToDouble(value);
+            return vResult;
+        }
+
+        public static byte? ToByte(object value)
+        {
+            byte? vResult = null;
+            if (value is SqlByte)
+                vResult = ((SqlByte)value).IsNull ? (byte)0 : ((SqlByte)value).Value;
+            else if (value is double)
+                vResult = value == DBNull.Value ? null : (byte?)value;
+            else if (value is DBNull)
+                vResult = null;
+            else
+                vResult = Convert.ToByte(value);
             return vResult;
         }
         #endregion
