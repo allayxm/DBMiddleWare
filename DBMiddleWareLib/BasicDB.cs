@@ -89,11 +89,12 @@ namespace MXKJ.DBMiddleWareLib
         #region 构造
         public BasicDBClass(DataBaseType DBTypeValue)
         {
-            m_DataBaseType = DBTypeValue;
-            //if (m_DbConnection == null)
-            InitConnection();
-            FillTableList();
-            FillTableViewList();
+       
+                m_DataBaseType = DBTypeValue;
+                //if (m_DbConnection == null)
+                InitConnection();
+                FillTableList();
+                FillTableViewList();
 
         }
         #endregion
@@ -980,7 +981,7 @@ namespace MXKJ.DBMiddleWareLib
             switch (m_DataBaseType)
             {
                 case DataBaseType.MySql:
-                    vCondition = string.Format("`{0}`=:PrimaryKeyValue", m_PrimaryKey);
+                    vCondition = string.Format("`{0}`=@PrimaryKeyValue", m_PrimaryKey);
                     break;
                 case DataBaseType.Oracle:
                     vCondition = string.Format("{0}=:PrimaryKeyValue", m_PrimaryKey);
